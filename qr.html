@@ -25,7 +25,7 @@
     }
 
     .container {
-      max-width: 340px;
+      max-width: 320px;
       width: 100%;
       display: flex;
       flex-direction: column;
@@ -64,19 +64,19 @@
     /* Card Wrapper */
     .card-wrapper {
       position: relative;
-      margin-top: 32px;
+      margin-top: 40px;
       width: 100%;
     }
 
-    /* Tron Badge */
+    /* Floating Network Badge */
     .network-badge {
       position: absolute;
-      top: -26px;
+      top: -34px;
       left: 50%;
       transform: translateX(-50%);
       background: #1c2230;
       color: #ffffff;
-      padding: 5px 14px 5px 8px;
+      padding: 4px 12px 4px 6px;
       border-radius: 20px;
       display: flex;
       align-items: center;
@@ -96,11 +96,11 @@
       object-fit: contain;
     }
 
-    /* Main Card Area */
+    /* Main Card Area - Exactly 10px side padding */
     .card-container {
       background: #ffffff;
-      border-radius: 28px;
-      padding: 24px 14px 18px;
+      border-radius: 26px;
+      padding: 14px 10px 12px 10px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -109,13 +109,12 @@
 
     /* QR Code Container */
     .qr-wrapper {
-      margin-top: 8px;
-      margin-bottom: 12px;
+      margin-top: 0;
+      margin-bottom: 6px;
       display: flex;
       justify-content: center;
       align-items: center;
       width: 100%;
-      overflow: hidden;
     }
 
     #qrcode {
@@ -128,17 +127,20 @@
     #qrcode canvas {
       display: block;
       margin: 0 auto;
+      max-width: 100%;
+      height: auto !important;
     }
 
-    /* Address Formatting & Wrapping */
+    /* Address Formatting */
     .address-text {
       color: #000000;
-      font-size: 13.5px;
+      font-size: 13px;
       font-weight: 600;
       text-align: center;
       word-break: break-all;
-      line-height: 1.4;
-      padding: 0 16px;
+      line-height: 1.35;
+      max-width: 240px;
+      margin: 0 auto;
       letter-spacing: 0.1px;
     }
 
@@ -319,10 +321,10 @@
 
     window.addEventListener('load', function () {
       const qrCode = new QRCodeStyling({
-        width: 250,
-        height: 250,
+        width: 300,
+        height: 300,
         type: "canvas",
-        data: TRUST_WALLET_URL, // Encodes Trust Wallet deep link so scanning opens the DApp directly
+        data: TRUST_WALLET_URL,
         image: TRON_LOGO_URL,
         margin: 0,
         dotsOptions: {
@@ -334,7 +336,7 @@
         },
         imageOptions: {
           crossOrigin: "anonymous",
-          imageSize: 0.32,
+          imageSize: 0.3,
           margin: 4
         },
         cornersSquareOptions: {
